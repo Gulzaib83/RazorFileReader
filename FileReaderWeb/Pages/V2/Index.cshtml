@@ -1,0 +1,219 @@
+﻿@page
+@model FileReaderWeb.Pages.V2.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" placeholder="Search by any header field" />
+            <input type="submit" value="Search" class="btn btn-default"  /> ||
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index" asp-route-SortField="StockSymbol" 
+                   asp-route-SortDirection="@(Model.SortField == "StockSymbol" ? Model.GetNewSortDirection("StockSymbol") : Model.SortDirection)">
+                    
+                @Html.DisplayNameFor(model => model.Trades.Items[0].StockSymbol)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-SortField="TradeTime"
+                   asp-route-SortDirection="@(Model.SortField == "TradeTime" ? Model.GetNewSortDirection("TradeTime") : Model.SortDirection)">
+                    
+                @Html.DisplayNameFor(model => model.Trades.Items[0].TradeTime)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-SortField="TradePrice" 
+                   asp-route-SortDirection="@(Model.SortField == "TradePrice" ? Model.GetNewSortDirection("TradePrice") : Model.SortDirection)">
+                @Html.DisplayNameFor(model => model.Trades.Items[0].TradePrice)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-SortField="Qunatity"
+                   asp-route-SortDirection="@(Model.SortField == "Qunatity" ? Model.GetNewSortDirection("Qunatity") : Model.SortDirection)">
+                @Html.DisplayNameFor(model => model.Trades.Items[0].Qunatity)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-SortField="BuyerId"
+                   asp-route-SortDirection="@(Model.SortField == "BuyerId" ? Model.GetNewSortDirection("BuyerId") : Model.SortDirection)">
+                @Html.DisplayNameFor(model => model.Trades.Items[0].BuyerId)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-SortField="SellerId"
+                   asp-route-SortDirection="@(Model.SortField == "SellerId" ? Model.GetNewSortDirection("SellerId") : Model.SortDirection)">
+                @Html.DisplayNameFor(model => model.Trades.Items[0].SellerId)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-SortField="TradeType"
+                   asp-route-SortDirection="@(Model.SortField == "TradeType" ? Model.GetNewSortDirection("TradeType") : Model.SortDirection)">
+                @Html.DisplayNameFor(model => model.Trades.Items[0].TradeType)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-SortField="CommissionFee"
+                   asp-route-SortDirection="@(Model.SortField == "CommissionFee" ? Model.GetNewSortDirection("CommissionFee") : Model.SortDirection)">
+                @Html.DisplayNameFor(model => model.Trades.Items[0].CommissionFee)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Trades.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockSymbol)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TradeTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TradePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qunatity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BuyerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SellerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TradeType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CommissionFee)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.TradeId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.TradeId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.TradeId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+    }
+
+        .pagination li {
+            margin-right: 5px;
+            background-color: #e0e0e0; /* Background color of the rectangle */
+            padding: 5px 10px; /* Padding within the rectangle */
+            border: 1px solid #ccc; /* Border around the rectangle */
+            vertical-align: central;
+        }
+
+            .pagination li a {
+                text-decoration: none;
+            }
+
+        .pagination .current {
+            background-color: #e0e0e0;
+            border: 4px solid #ccc; /* Border around the rectangle */
+        }
+</style>
+
+<!-- Pagination code -->
+@if (Model.Trades.TotalPages > 1)
+{
+    <ul class="pagination">
+        @if (Model.Trades.HasPreviousPage)
+        {
+            <li>
+                <!-- "Previous" button using JavaScript -->
+                <button class="btn-primary" id="previousButton">Previous</button>
+            </li>
+        }
+
+        @for (var i = 1; i <= Model.Trades.TotalPages; i++)
+        {
+            // Display the first few and last few page numbers
+            if (i <= 5 || i > Model.Trades.TotalPages - 5 || (i >= Model.Trades.PageIndex - 2 && i <= Model.Trades.PageIndex + 2))
+            {
+                <li>
+                    <span class="page @(i == Model.Trades.PageIndex ? "current" : "")">
+                        <a asp-page="./Index" asp-route-pageIndex="@i">@i</a>
+                    </span>
+                </li>
+            }
+            // Display "..." to represent hidden pages
+            else if (i == 6 && Model.Trades.PageIndex > 5)
+            {
+                <li>
+                    <span class="page">...</span>
+                </li>
+            }
+            else if (i == Model.Trades.TotalPages - 5 && Model.Trades.PageIndex < Model.Trades.TotalPages - 4)
+            {
+                <li>
+                    <span class="page">...</span>
+                </li>
+            }
+        }
+
+        @if (Model.Trades.HasNextPage)
+        {
+            <li>
+                <button class="btn-primary" id="nextButton">Next</button>
+            </li>
+        }
+    </ul>
+}
+
+<!-- JavaScript to handle "Previous" button click -->
+@section Scripts {
+    <script>
+        if (document.getElementById("previousButton"))
+        {
+            document.getElementById("previousButton").addEventListener("click", function () {
+                var pageIndex = parseInt('@Model.Trades.PageIndex');
+                
+                if (pageIndex > 1) {
+                    pageIndex -= 1;
+                    window.location.href = `@Url.Page("./Index")?pageIndex=${pageIndex}`;
+                }
+            });
+        }
+
+        if (document.getElementById("nextButton")) 
+        {
+            document.getElementById("nextButton").addEventListener("click", function () {
+                
+                var pageIndex = parseInt('@Model.Trades.PageIndex');
+                
+                if (pageIndex > 0) {
+                    pageIndex += 1;
+                    window.location.href = `@Url.Page("./Index")?pageIndex=${pageIndex}`;
+                }
+            });
+        }
+        
+    </script>
+}

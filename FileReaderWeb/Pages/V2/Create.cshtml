@@ -1,0 +1,69 @@
+﻿@page
+@model FileReaderWeb.Pages.V2.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Trades</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Trades.StockSymbol" class="control-label"></label>
+                <input asp-for="Trades.StockSymbol" class="form-control" />
+                <span asp-validation-for="Trades.StockSymbol" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trades.TradeTime" class="control-label"></label>
+                <input asp-for="Trades.TradeTime" class="form-control" />
+                <span asp-validation-for="Trades.TradeTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trades.TradePrice" class="control-label"></label>
+                <input asp-for="Trades.TradePrice" class="form-control" />
+                <span asp-validation-for="Trades.TradePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trades.Qunatity" class="control-label"></label>
+                <input asp-for="Trades.Qunatity" class="form-control" />
+                <span asp-validation-for="Trades.Qunatity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trades.BuyerId" class="control-label"></label>
+                <input asp-for="Trades.BuyerId" class="form-control" />
+                <span asp-validation-for="Trades.BuyerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trades.SellerId" class="control-label"></label>
+                <input asp-for="Trades.SellerId" class="form-control" />
+                <span asp-validation-for="Trades.SellerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trades.TradeType" class="control-label"></label>
+                <input asp-for="Trades.TradeType" class="form-control" />
+                <span asp-validation-for="Trades.TradeType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trades.CommissionFee" class="control-label"></label>
+                <input asp-for="Trades.CommissionFee" class="form-control" />
+                <span asp-validation-for="Trades.CommissionFee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
